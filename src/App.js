@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
+import Navigation from "./Components/Navigation/Navigation"
+import MovieList from "./Components/MovieCards/MovieList"
+import { moviesData } from "./Components/MovieCards/Data"
+import { useState } from "react"
+import AddMovie from "./AddMovie/AddMovie"
+import FilterMovie from "./Components/FilterMovie/FilterMovie"
+import Reset from "./Components/Reset/Reset"
 
 function App() {
+  const [movies, setMovies] = useState(moviesData)
+  const [inputSearch, setInputSearch] = useState("")
+  // console.log(inputSearch)
+  const [newRate, setNewRate] = useState(0)
+  // console.log(newRate)
+
+  const add = (newMovie) => {
+    setMovies([...movies, newMovie])
+  }
+
+  const handleReset = () => {
+    setInputSearch("")
+    setNewRate(0)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navigation />
+      <AddMovie add={add} />
+      <FilterMovie
+        setInputSearch={setInputSearch}
+        inputSearch={inputSearch}
+        setNewRate={setNewRate}
+        newRate={newRate}
+      />
+      <Reset handleReset={handleReset} />
+      <MovieList movies={movies} inputSearch={inputSearch} newRate={newRate} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
